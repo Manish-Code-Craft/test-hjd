@@ -1,0 +1,87 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+@import "tailwindcss";
+
+:root {
+  --font-manrope: "Manrope", sans-serif;
+  --font-chakra: "Chakra Petch", sans-serif;
+  --font-poppins: "Poppins", sans-serif; 
+  --e-global-color-primary: #10C8F0;
+  --e-global-color-secondary: #000000;
+  --e-global-color-white: #ffffff;
+}
+
+
+@layer utilities {
+  .manrope{
+    font-family: var(--font-manrope);
+  }
+
+  .chakra {
+    font-family: var(--font-chakra);
+  }
+
+  .poppins {
+    font-family: var(--font-poppins);
+  }
+}
+
+.rotating-banner-headline .rbh-dynamic-wrapper {
+  position: relative;
+  perspective: 300px;
+  overflow: hidden;
+}
+
+.rbh-dynamic-text {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.rbh-text-active {
+  position: relative;
+  opacity: 1;
+}
+
+.rbh-text-inactive {
+  opacity: 1;
+}
+
+/* LETTER BASE */
+.rbh-letter {
+  display: inline-block;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+}
+
+/* ACTIVE → IN */
+.rbh-text-active .rbh-letter.rbh-animation-in {
+  animation: rbh-blinds-in 0.6s forwards;
+}
+
+/* INACTIVE → OUT */
+.rbh-text-inactive .rbh-letter {
+  animation: rbh-blinds-out 0.6s forwards;
+}
+
+/* KEYFRAMES (unchanged logic) */
+@keyframes rbh-blinds-in {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes rbh-blinds-out {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-180deg);
+  }
+}
