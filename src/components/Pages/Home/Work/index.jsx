@@ -53,7 +53,7 @@ export default function WorkSlider() {
   };
 
   return (
-    <section className="py-12.5 chakra bg-white overflow-hidden">
+    <section className="py-12.5 chakra bg-white overflow-hidden text-black">
       
       <Container>
         <h2 className="text-[64px] font-bold mb-12">
@@ -79,17 +79,17 @@ export default function WorkSlider() {
                   {/* Content */}
                   <div className="grid grid-cols-[2fr_1fr] items-center py-4 mt-6 border-y border-[#D2D2D2]">
                     
-                    <h3 className="text-[18px] font-bold uppercase">
+                    <h2 className="text-[20px] font-extrabold uppercase">
                       {item.title}
-                    </h3>
+                    </h2>
 
                     <div className="text-right">
-                      <p className="text-[#ADADAD] text-sm">
+                      <p className="text-[#ADADAD] text-md">
                         {item.category}
                       </p>
                       <Link
                         href={item.link}
-                        className="text-[#10C8F0] text-sm"
+                        className="text-[#10C8F0] text-lg"
                       >
                         See more
                       </Link>
