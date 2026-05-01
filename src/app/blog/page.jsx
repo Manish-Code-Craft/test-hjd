@@ -1,4 +1,4 @@
-import Banner from "@/components/Blog/Banner";
+// import Banner from "@/components/Blog/Banner";
 
 export const metadata = {
   metadataBase: new URL("https://www.highjumpdigital.com"),
@@ -59,7 +59,10 @@ export const metadata = {
 export default function Blog() {
     return (
      <>
-     <Banner />
+     {/* <Banner /> */}
+     <div>
+      <h1 className="text-3xl font-bold text-center mt-10">Blog Coming Soon...</h1>
+     </div>
      </>
     );
 }
