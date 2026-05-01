@@ -12,31 +12,31 @@ const workData = [
     title: "Rock Solid Doors",
     category: "SEO",
     image: "/home/work/rock-solid.webp",
-    link: "https://www.highjumpdigital.com/our-work/rock-solid-doors/",
+    link: "#",
   },
   {
     title: "Reef Group",
     category: "SEO",
     image: "/home/work/reef.webp",
-    link: "https://www.highjumpdigital.com/our-work/reef-group/",
+    link: "#",
   },
   {
     title: "Chemdry",
     category: "Facebook",
     image: "/home/work/chemdry.webp",
-    link: "https://www.highjumpdigital.com/our-work/chemdry/",
+    link: "#",
   },
   {
     title: "Smart Security",
     category: "SEO",
     image: "/home/work/smart-security.webp",
-    link: "https://www.highjumpdigital.com/our-work/smart-security/",
+    link: "#",
   },
   {
     title: "RV Parts Express",
     category: "Adwords",
     image: "/home/work/rv-express.webp",
-    link: "https://www.highjumpdigital.com/our-work/rv-parts-express/",
+    link: "#",
   },
 ];
 
@@ -44,86 +44,95 @@ export default function WorkSlider() {
   const settings = {
     dots: false,
     arrows: false,
-    infinite: true,
+    infinite: false, // 🔥 MUST
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        }
-      },
-      {
-        breakpoint: 425,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        }
-      }
-    ]
+    swipeToSlide: true,
+    draggable: true,
   };
 
   return (
-    <section className="py-12.5 bg-white">
+    <section className="py-12.5 chakra bg-white overflow-hidden">
+      
       <Container>
- 
-        <h2 className="text-[64px] chakra font-bold  mb-12">
+        <h2 className="text-[64px] font-bold mb-12">
           OUR WORK
         </h2>
 
-        {/* Slick Slider */}
-        <Slider {...settings}>
-          {workData.map((item, index) => (
-            <div key={index} className="px-0">
-              <div className="mr-10">
-                {/* Image */}
-                <div className="relative h-80 w-full overflow-hidden ">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+        <div className="recent-work-slider">
+          <Slider {...settings}>
+            {workData.map((item, index) => (
+              <div key={index} className="px-4">
+                
+                <div>
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#eee]">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
 
-                {/* Content */}
-                <div className="border-y border-[#D2D2D2] mt-6 py-2.5">
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="text-[20px] chakra font-extrabold uppercase tracking-[0.02em] text-black">
+                  {/* Content */}
+                  <div className="grid grid-cols-[2fr_1fr] items-center py-4 mt-6 border-y border-[#D2D2D2]">
+                    
+                    <h3 className="text-[18px] font-bold uppercase">
                       {item.title}
                     </h3>
+
                     <div className="text-right">
-                      <p className="text-[16px] text-[#ADADAD] tracking-[0.32px] font-medium poppins">
+                      <p className="text-[#ADADAD] text-sm">
                         {item.category}
                       </p>
                       <Link
                         href={item.link}
-                        target="_blank"
-                        className="mt-3 inline-block text-[18px] manrope tracking-[0.32px] font-medium text-[#10C8F0] hover:text-[#0d8cc7]"
+                        className="text-[#10C8F0] text-sm"
                       >
                         See more
                       </Link>
                     </div>
+
                   </div>
                 </div>
+
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </div>
 
       </Container>
+
+      {/* 🔥 IMPORTANT STYLES */}
+      <style jsx global>{`
+        .recent-work-slider .slick-list {
+          overflow: visible;
+          position: relative;
+        }
+
+        /* LEFT MASK (this creates the illusion) */
+        .recent-work-slider .slick-list::before {
+          content: "";
+          position: absolute;
+          right: 100%;
+          width: 200vw;
+          height: 100%;
+          background: #fff;
+          z-index: 10;
+          pointer-events: none;
+        }
+
+        .recent-work-slider .slick-track {
+          display: flex;
+        }
+
+        .recent-work-slider .slick-slide {
+          height: auto;
+        }
+      `}</style>
+
     </section>
   );
 }
