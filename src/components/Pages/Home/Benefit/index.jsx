@@ -53,18 +53,29 @@ const benefitItems = [
   },
 ];
 
-const ArrowIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 18 16" fill="none">
+const ArrowIcon = ({ colorClass = "" }) => (
+  <svg width="20" height="20" viewBox="0 0 18 16" fill="none">
     <path
       d="M9.33888 15.712L15.1469 9.04H0.770875V7.624H15.1709L9.33888 0.951999H11.1869L17.7869 8.32L11.1869 15.712H9.33888Z"
-      fill="#10C8F0"
+      className={`transition-colors duration-300 ${colorClass}`}
     />
   </svg>
 );
 
 export default function Benefit() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeItem = benefitItems[activeIndex];
+  // Empty array means everything is closed on mobile by default
+  const [openIndices, setOpenIndices] = useState([]); 
+  const [hoveredIndex, setHoveredIndex] = useState(0);
+  const activeItem = benefitItems[hoveredIndex];
+
+  const toggleAccordion = (index) => {
+    if (openIndices.includes(index)) {
+      setOpenIndices(openIndices.filter((i) => i !== index));
+    } else {
+      setOpenIndices([...openIndices, index]);
+    }
+    setHoveredIndex(index);
+  };
 
   return (
     <section className="bg-[#090F14] transition-all duration-300 py-12.5 md:py-25 xl:h-175">
@@ -77,47 +88,58 @@ export default function Benefit() {
           {/* LEFT SIDE */}
           <div className="space-y-4 lg:space-y-0">
             {benefitItems.map((item, index) => {
-              const isActive = index === activeIndex;
+              const isOpen = openIndices.includes(index);
+              const isHovered = index === hoveredIndex;
 
               return (
                 <div key={item.title}>
                   <button
                     type="button"
-                    onClick={() => setActiveIndex(index)}
+                    onClick={() => toggleAccordion(index)}
                     onMouseEnter={() => {
-                      if (window.innerWidth >= 1024) setActiveIndex(index);
+                      if (window.innerWidth >= 1024) setHoveredIndex(index);
                     }}
-                    className={`w-full lg:w-87 flex items-center justify-between gap-4 text-left text-[18px] sm:text-[20px] md:text-[24px] font-semibold chakra uppercase leading-[1.8em] tracking-[0.32px] transition-colors 
-                       px-7.5 py-5 lg:px-0 lg:py-2.5 cursor-pointer border border-[#10c8f0] lg:border-0  bg-[#88888830] lg:bg-transparent
-                        ${isActive ? "text-cyan-400" : "text-white hover:text-cyan-300"
-                            }`}>
+                    className={`w-full lg:w-87 flex items-center justify-between gap-4 text-left text-[20px] sm:text-[20px] md:text-[24px] font-semibold chakra uppercase leading-0 md:leading-[1.8em] tracking-[0.32px] transition-colors duration-300 
+                       px-7.5 py-5 lg:px-0 lg:py-2.5 cursor-pointer border border-[#10c8f0] lg:border-0 bg-[#88888830] lg:bg-transparent
+                        ${isOpen ? "max-lg:text-white" : "max-lg:text-cyan-400"} 
+                        ${isHovered ? "lg:text-cyan-400" : "lg:text-white lg:hover:text-cyan-300"}`}
+                  >
                     <span>{item.title}</span>
                     <span className="inline-flex">
-                      <ArrowIcon />
+                      <ArrowIcon 
+                        colorClass={`
+                          ${isOpen ? "max-lg:fill-white" : "max-lg:fill-cyan-400"} 
+                          ${isHovered ? "lg:fill-cyan-400" : "lg:fill-white"}
+                        `}
+                      />
                     </span>
                   </button>
 
-                  {isActive && (
-                    <div className="block lg:hidden mt-3 space-y-4 p-2 sm:p-0">
-                      {item.paragraphs.map((paragraph, i) => (
-                        <p
-                          key={i}
-                          className="text-[16px] poppins leading-7 text-white"
-                        >
-                          {paragraph}
-                        </p>
-                      ))}
+                  {/* MOBILE ACCORDION CONTENT */}
+                  <div 
+                    className={`grid transition-all duration-500 ease-in-out lg:hidden ${
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="mt-3 space-y-4 p-2 sm:p-0 pb-4">
+                        {item.paragraphs.map((paragraph, i) => (
+                          <p key={i} className="text-[16px] poppins leading-7 text-white">
+                            {paragraph}
+                          </p>
+                        ))}
 
-                      {item.href && (
-                        <Link
-                          href={item.href}
-                          className="inline-flex items-center rounded-full border border-cyan-400 px-5 py-2.5 text-[18px] poppins font-normal uppercase text-cyan-400"
-                        >
-                          LEARN MORE
-                        </Link>
-                      )}
+                        {item.href && (
+                          <Link
+                            href={item.href}
+                            className="inline-flex items-center rounded-full border border-cyan-400 px-5 py-2.5 text-[20px] leading-0 poppins font-normal uppercase text-cyan-400"
+                          >
+                            LEARN MORE
+                          </Link>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               );
             })}
@@ -127,10 +149,7 @@ export default function Benefit() {
           <div className="hidden lg:flex mt-2 flex-col justify-between">
             <div className="space-y-5 text-white">
               {activeItem.paragraphs.map((paragraph, index) => (
-                <p
-                  key={index}
-                  className="text-[18px] poppins font-normal leading-8.25 text-white"
-                >
+                <p key={index} className="text-[18px] poppins font-normal leading-8.25 text-white">
                   {paragraph}
                 </p>
               ))}

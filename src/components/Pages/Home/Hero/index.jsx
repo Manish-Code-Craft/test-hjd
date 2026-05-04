@@ -20,21 +20,21 @@ export default function Hero() {
         <div className="absolute inset-0 "></div>
       </div>
 
-      <Container className="relative z-10">
+      <div className="relative z-10 w-full max-w-335 mx-auto px-5 sm:px-6 md:px-0">
         <div className="flex items-center">
           <div className="w-full max-w-310 text-left">
-            <h1 className="font-bold uppercase chakra text-white text-[2.4rem] lg:text-[60px] xl:text-[80px] leading-[1.1] sm:leading-[1.1] md:leading-[1.2em] sm:tracking-[0.32px]">
+            <h1 className="font-bold uppercase chakra text-white text-[45px] lg:text-[60px] xl:text-[80px] leading-[1.1] sm:leading-[1.1] md:leading-[1.2em] sm:tracking-[0.32px]">
               GET MORE FROM YOUR BUSINESS WITH{" "}
               <span className="text-[#10C8F0]">
                 <RotatingText />
               </span>
             </h1>
-            <p className="my-5 text-white font-medium manrope text-[15px] md:text-[18px] leading-7 sm:leading-[1.9em] max-w-200 xl:max-w-310">
+            <p className="my-5 text-white font-medium manrope text-[16px] md:text-[18px] leading-[1.8em] max-w-200 xl:max-w-310">
               Your premier digital agency providing comprehensive SEO, strategic Google and Facebook Ads, optimized web design, and bespoke branding services, all aimed to maximize your online visibility, amplify customer engagement, and foster a distinctive brand identity. Choose High Jump Digital to leap over your competition and accelerate your digital success.
             </p>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

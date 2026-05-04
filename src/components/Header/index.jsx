@@ -73,7 +73,7 @@ export default function Header() {
             {/* 🔥 CENTER MENU ICON (≤768px) */}
             <div className="absolute left-1/2 -translate-x-1/2 xl:hidden">
               <button
-                className="text-white"
+                className="text-[#10C8F0] border-1 rounded-[4px] border-[#10C8F0] p-1 hover:bg-[#10C8F0] hover:text-white transition"
                 onClick={() => setMobileOpen(!mobileOpen)}
               >
                 {mobileOpen ? <X /> : <Menu />}
@@ -81,7 +81,7 @@ export default function Header() {
             </div>
 
             {/* RIGHT SIDE */}
-            <div className="flex items-center gap-4 md:gap-20 z-10">
+            <div className="flex items-center gap-4 md:gap-20 z-10 pr-0 lg:pr-2.5">
               {/* DESKTOP NAV */}
               <nav className="hidden xl:flex items-center gap-10">
                 {navigationItems.map((item) => (
@@ -89,7 +89,7 @@ export default function Header() {
                     {item.name === "SERVICES" ? (
                       <button
                         onClick={() => setServiceOpen(true)}
-                        className="cursor-pointer text-white text-[16px] font-bold chakra uppercase tracking-[0.32px] hover:text-[#10C8F0] transition"
+                        className="cursor-pointer text-white text-[16px] font-bold chakra uppercase tracking-[0.32px] hover:text-[#10C8F0] transition pr-0 lg:pr-2"
                       >
                         {item.name}
                       </button>
@@ -130,7 +130,7 @@ export default function Header() {
               <div className="">
                 <button
                   onClick={() => setContactFormOpen(true)}
-                  className="text-white text-[16px] cursor-pointer font-bold chakra uppercase tracking-[0.32px] border border-[#10C8F0] px-5 py-2 rounded-full hover:bg-[#10C8F0] hover:text-black transition"
+                  className="text-white text-[12px] md:text-[16px] cursor-pointer font-bold chakra uppercase tracking-[0.32px] border border-[#10C8F0] px-5 py-1.5 rounded-full hover:bg-[#10C8F0] hover:text-black transition"
                 >
                   WORK WITH US
                 </button>
@@ -139,52 +139,34 @@ export default function Header() {
           </div>
         </Container>
 
-        {/* MOBILE MENU */}
-        {mobileOpen && (
-          <div className="xl:hidden fixed inset-0 bg-[#02141C] z-999 pt-6 px-6">
-            <div className="flex items-center justify-between mb-10">
-              <Image
-                src="/header/website-logo.svg"
-                alt="High Jump Digital"
-                width={120}
-                height={30}
-              />
-
-              <button
+        {/* MOBILE MENU */}      
+        <div
+          className={`xl:hidden absolute top-full left-0 w-full bg-[#02141C] z-[998] px-6 transition-all duration-500 ease-in-out transform border-t border-[#3F3F3F] ${
+            mobileOpen 
+              ? "translate-y-0 opacity-100 visible h-max-content" 
+              : "-translate-y-10 opacity-0 invisible h-0"
+          }`}
+        >
+          {/* Internal padding and content */}
+          <div className="flex flex-col bg-[#02141C] -mx-6 px-6 py-4">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href || "#"}
                 onClick={() => setMobileOpen(false)}
-                className="bg-[#10C8F0] p-3 rounded"
+                className={`chakra text-[25px] font-bold uppercase px-4 py-5 border-b border-[#0d2a35] transition-colors duration-300 ${
+                  item.name === "OUR WORK"
+                    ? "bg-[#10C8F0] text-white"
+                    : "text-[#10C8F0]"
+                }`}
               >
-                <X className="text-white " />
-              </button>
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  setContactFormOpen(true);
-                }}
-                className="border border-[#10C8F0] px-5 py-2 rounded-full text-white chakra font-bold uppercase text-sm"
-              >
-                WORK WITH US
-              </button>
-            </div>
-
-            <div className="flex flex-col bg-[#02141C] -m-10 p-10 pb-0">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href || "#"}
-                  onClick={() => setMobileOpen(false)}
-                  className={`chakra text-[25px] font-bold uppercase px-4 py-5 border-b  border-[#0d2a35] ${
-                    item.name === "OUR WORK"
-                      ? "bg-[#10C8F0] text-white"
-                      : "text-[#10C8F0]"
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+                {item.name}
+              </Link>
+            ))}
+            
+           
           </div>
-        )}
+        </div>
       </header>
 
       {/* POPUPS */}

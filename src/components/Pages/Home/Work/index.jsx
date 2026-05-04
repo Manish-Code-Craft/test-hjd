@@ -92,12 +92,9 @@ export default function WorkSlider() {
   return (
     <section 
       ref={sectionRef} 
-      className="py-12.5 bg-white overflow-hidden text-black min-h-[400px]"
+      className="py-12.5 bg-white overflow-hidden text-black min-h-[500px]"
     >
-      {/* 
-        We wait for mount to render the Slider. 
-        This prevents the "3-slides-on-mobile" bug caused by SSR. 
-      */}
+      
       {isMounted && (
         <Container>
           <h2 className="text-[40px] md:text-[64px] chakra font-bold mb-8 md:mb-12 uppercase leading-tight">
