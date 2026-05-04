@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
@@ -21,40 +21,41 @@ export default function WorkSlider() {
   const sectionRef = useRef(null);
   const isAtStart = useRef(true);
   const isAtEnd = useRef(false);
-  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Robust visibility check for boundary logic
+  const getVisibleCount = () => {
+    if (typeof window === "undefined") return 1;
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
+  };
 
   const settings = {
     dots: false,
     arrows: false,
     infinite: false,
     speed: 600,
-    slidesToShow: 3,
+    slidesToShow: 1, // Default to 1 for mobile first
     slidesToScroll: 1,
     swipeToSlide: true,
     draggable: true,
     beforeChange: (oldIdx, newIdx) => {
-      // Update boundaries
+      const visible = getVisibleCount();
       isAtStart.current = newIdx === 0;
-      isAtEnd.current = newIdx >= workData.length - 3; // 3 is slidesToShow
+      isAtEnd.current = newIdx >= workData.length - visible;
     },
     responsive: [
-      { 
-        breakpoint: 1024, 
-        settings: { slidesToShow: 2 },
-        // Update boundary logic for tablet
-        beforeChange: (o, n) => { 
-          isAtStart.current = n === 0; 
-          isAtEnd.current = n >= workData.length - 2; 
-        } 
+      {
+        breakpoint: 5000, // Large Desktops
+        settings: { slidesToShow: 3 }
       },
-      { 
-        breakpoint: 640, 
-        settings: { slidesToShow: 1 },
-        // Update boundary logic for mobile
-        beforeChange: (o, n) => { 
-          isAtStart.current = n === 0; 
-          isAtEnd.current = n >= workData.length - 1; 
-        } 
+      {
+        breakpoint: 1024, // Tablets
+        settings: { slidesToShow: 2 }
+      },
+      {
+        breakpoint: 767, // Mobile
+        settings: { slidesToShow: 1 }
       }
     ]
   };
@@ -66,16 +67,17 @@ export default function WorkSlider() {
     let timeout = null;
 
     const handleWheel = (e) => {
+      // Disable mouse wheel logic on mobile screens
+      if (window.innerWidth < 768) return;
+      
       if (!sliderRef.current) return;
 
       const delta = e.deltaY;
       const scrollingDown = delta > 0;
       const scrollingUp = delta < 0;
 
-      // If we are moving down and NOT at the end, OR moving up and NOT at the start:
-      // We lock the page and move the slider.
       if ((scrollingDown && !isAtEnd.current) || (scrollingUp && !isAtStart.current)) {
-        if (Math.abs(delta) > 10) { // Ignore tiny jitter
+        if (Math.abs(delta) > 10) { 
           e.preventDefault();
           
           if (!timeout) {
@@ -85,7 +87,6 @@ export default function WorkSlider() {
               sliderRef.current.slickPrev();
             }
             
-            // Limit how fast the user can trigger slides
             timeout = setTimeout(() => {
               timeout = null;
             }, 500); 
@@ -94,7 +95,6 @@ export default function WorkSlider() {
       }
     };
 
-    // Attach with passive: false to ensure preventDefault works
     section.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       section.removeEventListener("wheel", handleWheel);
@@ -105,15 +105,15 @@ export default function WorkSlider() {
   return (
     <section ref={sectionRef} className="py-12.5 bg-white overflow-hidden text-black">
       <Container>
-        <h2 className="text-[64px] chakra font-bold mb-12 uppercase">
+        <h2 className="text-[40px] md:text-[64px] chakra font-bold mb-8 md:mb-12 uppercase leading-tight">
           OUR WORK
         </h2>
 
         <div className="recent-work-slider">
           <Slider ref={sliderRef} {...settings}>
             {workData.map((item, index) => (
-              <div key={index} className="px-4">
-                <div>
+              <div key={index} className="px-2 md:px-4">
+                <div className="w-full">
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#eee]">
                     <Image
                       src={item.image}
@@ -123,13 +123,13 @@ export default function WorkSlider() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-[2fr_1fr] items-center py-4 mt-6 border-y border-[#D2D2D2]">
-                    <h2 className="text-[20px] chakra font-extrabold uppercase">
+                  <div className="grid grid-cols-[2fr_1fr] items-center py-4 mt-4 md:mt-6 border-y border-[#D2D2D2]">
+                    <h2 className="text-[18px] md:text-[20px] chakra font-extrabold uppercase truncate">
                       {item.title}
                     </h2>
                     <div className="text-right">
-                      <p className="text-[#ADADAD] poppins text-md">{item.category}</p>
-                      <Link href={item.link} className="text-[#10C8F0] poppins text-lg">
+                      <p className="text-[#ADADAD] poppins text-xs md:text-sm">{item.category}</p>
+                      <Link href={item.link} className="text-[#10C8F0] poppins text-sm md:text-base font-medium">
                         See more
                       </Link>
                     </div>
@@ -146,23 +146,31 @@ export default function WorkSlider() {
           overflow: visible;
           position: relative;
         }
-        .recent-work-slider .slick-list::before {
-          content: "";
-          position: absolute;
-          right: 100%;
-          width: 200vw;
-          height: 100%;
-          background: #fff;
-          z-index: 10;
-          pointer-events: none;
+        @media (min-width: 768px) {
+          .recent-work-slider .slick-list::before {
+            content: "";
+            position: absolute;
+            right: 100%;
+            width: 200vw;
+            height: 100%;
+            background: #fff;
+            z-index: 10;
+            pointer-events: none;
+          }
         }
-        .recent-work-slider .slick-track { display: flex; }
+        .recent-work-slider .slick-track { display: flex !important; }
         .recent-work-slider .slick-slide { height: auto; }
         
-        /* Stop horizontal scrollbars from appearing */
+        /* Ensure the slide content takes full width on mobile */
+        @media (max-width: 767px) {
+          .recent-work-slider .slick-slide > div {
+            width: 100%;
+          }
+        }
+
         html, body {
+          max-width: 100%;
           overflow-x: hidden;
-          width: 100%;
         }
       `}</style>
     </section>
