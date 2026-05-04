@@ -8,9 +8,7 @@ import { MapPin, Phone, Mail } from "lucide-react";
 /* ✅ ADDED ONLY */
 import { useState } from "react";
 import ContactFormPopup from "@/components/ContactFormPopup";
-
-// ✅ ONLY CHANGE: social icons import
-import { FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const locations = [
   { name: "Australia", href: "/contact-us-aus/" },
@@ -62,12 +60,12 @@ const socialLinks = [
   {
     name: "Facebook",
     href: "https://www.facebook.com/highjumpdigital/",
-    icon: FaFacebookF,
+    icon: FaFacebook, // Changed to filled version
   },
   {
     name: "LinkedIn",
     href: "https://www.linkedin.com/company/high-jump-digital?originalSubdomain=th",
-    icon: FaLinkedinIn,
+    icon: FaLinkedin, // Changed to filled version
   },
   {
     name: "Instagram",
@@ -178,7 +176,7 @@ export default function Footer() {
               ))}
 
               {/* SOCIAL ICONS */}
-              <div className="flex items-center gap-4 pt-4">
+              <div className="flex items-center gap-3 ">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
@@ -188,12 +186,12 @@ export default function Footer() {
                       target="_blank"
                       className="flex items-center justify-center hover:scale-110 transition"
                     >
-                      <Icon className="w-5 h-5 text-[#10C8F0]" />
+                      <Icon className="w-6 h-6 text-[#10C8F0]" />
                     </Link>
                   );
                 })}
               </div>
-             
+              
             </div>
             
           </div>
