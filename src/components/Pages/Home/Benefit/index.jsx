@@ -84,9 +84,9 @@ export default function Benefit() {
           HOW CAN YOU BENEFIT?
         </h2>
 
-        <div className="flex flex-col lg:flex-row gap-10">
+        <div className="flex flex-col lg:flex-row mt-[50px]">
           {/* LEFT SIDE */}
-          <div className="space-y-4 lg:space-y-0">
+          <div className="space-y-4 lg:space-y-0 lg:pr-[60px]">
             {benefitItems.map((item, index) => {
               const isOpen = openIndices.includes(index);
               const isHovered = index === hoveredIndex;
@@ -146,8 +146,8 @@ export default function Benefit() {
           </div>
 
           {/* RIGHT SIDE (DESKTOP ONLY) */}
-          <div className="hidden lg:flex mt-2 flex-col justify-between">
-            <div className="space-y-5 text-white">
+          <div className="hidden lg:flex flex-col justify-between">
+            <div className="space-y-5 text-white px-5">
               {activeItem.paragraphs.map((paragraph, index) => (
                 <p key={index} className="text-[18px] poppins font-normal leading-8.25 text-white">
                   {paragraph}
@@ -155,7 +155,7 @@ export default function Benefit() {
               ))}
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 px-5">
               {activeItem.href && (
                 <Link
                   href={activeItem.href}

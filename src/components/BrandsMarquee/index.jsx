@@ -20,7 +20,7 @@ export default function BrandsSlider() {
     mode: "snap",
 
     defaultAnimation: {
-      duration: 1000, // 🔥 smooth transition
+      duration: 1000, // 
       easing: (t) => t * t * (3 - 2 * t),
     },
 
@@ -46,8 +46,8 @@ export default function BrandsSlider() {
 
     created(slider) {
       setInterval(() => {
-        slider.next(); // ✅ ALWAYS FORWARD (no reverse)
-      }, 2500);
+        slider.next();
+      }, 2000);
     },
   });
 

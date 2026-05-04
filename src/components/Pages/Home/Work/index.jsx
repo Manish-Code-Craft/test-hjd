@@ -104,7 +104,7 @@ export default function WorkSlider() {
           <div className="recent-work-slider">
             <Slider ref={sliderRef} {...settings}>
               {workData.map((item, index) => (
-                <div key={index} className="px-2 md:px-4">
+                <div key={index} className="p-0 md:p-5">
                   <div className="w-full">
                     <div className="relative aspect-[4/3] overflow-hidden bg-[#eee]">
                       <Image
