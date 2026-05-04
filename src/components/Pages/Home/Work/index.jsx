@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
@@ -41,10 +42,22 @@ const workData = [
 ];
 
 export default function WorkSlider() {
+  const sliderRef = useRef(null);
+
+  const handleWheel = (e) => {
+    if (!sliderRef.current) return;
+
+    if (e.deltaY > 0) {
+      sliderRef.current.slickNext();
+    } else {
+      sliderRef.current.slickPrev();
+    }
+  };
+
   const settings = {
     dots: false,
     arrows: false,
-    infinite: false, // 🔥 MUST
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -53,18 +66,16 @@ export default function WorkSlider() {
   };
 
   return (
-    <section className="py-12.5  bg-white overflow-hidden text-black">
-      
+    <section className="py-12.5 bg-white overflow-hidden text-black">
       <Container>
         <h2 className="text-[64px] chakra font-bold mb-12">
           OUR WORK
         </h2>
 
-        <div className="recent-work-slider">
-          <Slider {...settings}>
+        <div className="recent-work-slider" onWheel={handleWheel}>
+          <Slider ref={sliderRef} {...settings}>
             {workData.map((item, index) => (
               <div key={index} className="px-4">
-                
                 <div>
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#eee]">
@@ -77,32 +88,28 @@ export default function WorkSlider() {
                   </div>
 
                   {/* Content */}
-                  <div className="grid grid-cols-[2fr_1fr] items-center  py-4 mt-6 border-y border-[#D2D2D2]">
-                    
+                  <div className="grid grid-cols-[2fr_1fr] items-center py-4 mt-6 border-y border-[#D2D2D2]">
                     <h2 className="text-[20px] chakra font-extrabold uppercase">
                       {item.title}
                     </h2>
 
                     <div className="text-right">
-                      <p className="text-[#ADADAD] poppins  text-md">
+                      <p className="text-[#ADADAD] poppins text-md">
                         {item.category}
                       </p>
                       <Link
                         href={item.link}
-                        className="text-[#10C8F0] poppins  text-lg"
+                        className="text-[#10C8F0] poppins text-lg"
                       >
                         See more
                       </Link>
                     </div>
-
                   </div>
                 </div>
-
               </div>
             ))}
           </Slider>
         </div>
-
       </Container>
 
       {/* 🔥 IMPORTANT STYLES */}
@@ -112,7 +119,6 @@ export default function WorkSlider() {
           position: relative;
         }
 
-        /* LEFT MASK (this creates the illusion) */
         .recent-work-slider .slick-list::before {
           content: "";
           position: absolute;
@@ -132,7 +138,6 @@ export default function WorkSlider() {
           height: auto;
         }
       `}</style>
-
     </section>
   );
 }
