@@ -99,7 +99,7 @@ export default function Benefit() {
                     onMouseEnter={() => {
                       if (window.innerWidth >= 1024) setHoveredIndex(index);
                     }}
-                    className={`w-full lg:w-87 flex items-center justify-between gap-4 text-left text-[20px] sm:text-[20px] md:text-[24px] font-semibold chakra uppercase leading-0 md:leading-[1.8em] tracking-[0.32px] transition-colors duration-300 
+                    className={`w-full lg:w-87 flex items-center justify-between gap-4 text-left text-[20px] sm:text-[20px] md:text-[24px] font-extrabold chakra uppercase leading-0 md:leading-[1.8em] tracking-[0.32px] transition-colors duration-300 
                        px-7.5 py-5 lg:px-0 lg:py-2.5 cursor-pointer border border-[#10c8f0] lg:border-0 bg-[#88888830] lg:bg-transparent
                         ${isOpen ? "max-lg:text-white" : "max-lg:text-cyan-400"} 
                         ${isHovered ? "lg:text-cyan-400" : "lg:text-white lg:hover:text-cyan-300"}`}
