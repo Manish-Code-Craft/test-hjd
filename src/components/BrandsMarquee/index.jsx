@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
@@ -15,11 +15,14 @@ const brands = [
 ];
 
 export default function BrandsSlider() {
-  const indexRef = useRef(0); // 🔥 keeps absolute index
-
   const [sliderRef] = useKeenSlider({
     loop: true,
     mode: "snap",
+
+    defaultAnimation: {
+      duration: 1000, // 🔥 smooth transition
+      easing: (t) => t * t * (3 - 2 * t),
+    },
 
     slides: {
       perView: 2,
@@ -43,12 +46,7 @@ export default function BrandsSlider() {
 
     created(slider) {
       setInterval(() => {
-        indexRef.current += 1; // always forward
-
-        slider.moveToIdx(indexRef.current, true, {
-          duration: 900, // smooth
-          easing: (t) => t * t * (3 - 2 * t),
-        });
+        slider.next(); // ✅ ALWAYS FORWARD (no reverse)
       }, 2500);
     },
   });
