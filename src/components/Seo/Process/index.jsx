@@ -58,7 +58,7 @@ export default function Process() {
           </div>
 
           {/* RIGHT SIDE ACCORDION */}
-          <div>
+          <div className="lg:h-[550px] overflow-y-auto pr-2">
             {data.map((item) => (
               <div
                 key={item.id}
@@ -66,9 +66,9 @@ export default function Process() {
                 onClick={() =>
                   setActive((prev) =>
                     item.id === 1
-                      ? 1 
+                      ? 1
                       : prev === item.id
-                      ? 1 
+                      ? 1
                       : item.id
                   )
                 }
@@ -85,15 +85,22 @@ export default function Process() {
                 </div>
 
                 {/* CONTENT */}
-                {active === item.id && (
-                  <p className="my-5 text-white manrope text-[15px] md:text-[18px] font-medium tracking-normal">
-                    {item.content}
-                  </p>
-                )}
+                <div
+                  className={`grid transition-all duration-500 ease-in-out ${
+                    active === item.id
+                      ? "grid-rows-[1fr] opacity-100 mt-5"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-white manrope text-[15px] md:text-[18px] font-medium tracking-normal pb-2">
+                      {item.content}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-
         </div>
       </Container>
     </section>

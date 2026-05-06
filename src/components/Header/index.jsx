@@ -149,7 +149,7 @@ export default function Header() {
         >
           {/* Internal padding and content */}
           <div className="flex flex-col bg-[#02141C] -mx-6 px-6 py-4">
-            {navigationItems.map((item) => (
+            {/* {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href || "#"}
@@ -162,8 +162,53 @@ export default function Header() {
               >
                 {item.name}
               </Link>
-            ))}
-            
+            ))} */}
+            {navigationItems.map((item) => {
+                if (item.name === "SERVICES") {
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        setServiceOpen(true);
+                        setMobileOpen(false);
+                      }}
+                      className="chakra text-[25px] font-bold uppercase px-4 py-5 border-b border-[#0d2a35] text-[#10C8F0] text-left w-full"
+                    >
+                      {item.name}
+                    </button>
+                  );
+                }
+
+                if (item.name === "CONTACT") {
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        setContactOpen(true);
+                        setMobileOpen(false);
+                      }}
+                      className="chakra text-[25px] font-bold uppercase px-4 py-5 border-b border-[#0d2a35] text-[#10C8F0] text-left w-full"
+                    >
+                      {item.name}
+                    </button>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`chakra text-[25px] font-bold uppercase px-4 py-5 border-b border-[#0d2a35] ${
+                      item.name === "OUR WORK"
+                        ? "bg-[#10C8F0] text-white"
+                        : "text-[#10C8F0]"
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}           
            
           </div>
         </div>
